@@ -1,0 +1,17 @@
+Vertex mapping
+  v0 -> u3
+  v1 -> u9
+  v2 -> u14
+  v3 -> u21
+  v4 -> u28
+
+Edge mapping
+  E0 [0, 1, 2] -> {F0, F1, F2}
+  E1 [2, 3] -> {F3, F4}
+  E2 [1, 3, 4] -> {F5, F6, F7, F8}
+  E3 [0, 4] -> {F9, F10, F11}
+
+Target G summary
+  |V(G)| = 32, |E(G)| = 21
+  Immersed G edges: F0-F11
+  Background G-only edges: F12-F20

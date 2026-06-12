@@ -97,14 +97,29 @@ bool QuickImmersion::execute(int end_depth, std::size_t end_amount) {
     end_depth_ = end_depth;
     end_amount_ = end_amount;
     best_immersions_.clear();
-    reset_search_state();
 
-    if (depth_ < 0 || h_.edge_count() == 0) {
+    const int maximum_depth = static_cast<int>(g_.edge_count()) - static_cast<int>(h_.edge_count());
+    if (maximum_depth < 0 || h_.edge_count() == 0) {
         return false;
     }
 
-    const bool ended_by_condition = initialize();
-    (void)ended_by_condition;
+    if (max_depth_) {
+        reset_search_state();
+        (void)initialize();
+    } else {
+        // Start with a small upper bound instead of the full |E(G)| - |E(H)|
+        // budget.  The full budget is often enormous and leads the search into
+        // oversized edge images before it finds a low-depth witness.
+        constexpr int initial_unbounded_depth = 3;
+        const int first_depth = std::min(initial_unbounded_depth, maximum_depth);
+        for (int search_depth = first_depth; search_depth <= maximum_depth; ++search_depth) {
+            depth_ = search_depth;
+            reset_search_state();
+            if (initialize() || !best_immersions_.empty()) {
+                break;
+            }
+        }
+    }
 
     reset_search_state();
     end_depth_ = 0;

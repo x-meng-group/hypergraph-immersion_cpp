@@ -22,6 +22,8 @@ public:
 
     [[nodiscard]] const Hypergraph& g() const noexcept { return g_; }
     [[nodiscard]] const Hypergraph& h() const noexcept { return h_; }
+    [[nodiscard]] const std::unordered_map<VertexId, VertexId>& node_mapping() const noexcept { return node_mapping_; }
+    [[nodiscard]] const std::vector<EdgeList>& edge_mapping() const noexcept { return edge_mapping_; }
 
 private:
     std::unordered_map<VertexId, VertexId> node_mapping_;
